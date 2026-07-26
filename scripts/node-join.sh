@@ -139,9 +139,18 @@ services:
     restart: unless-stopped
     ports:
       - "${admin_listen}:2019"
+#should be addr. of local wg addr. like 10.66.0.2
       - "80:80"
       - "443:443"
       - "443:443/udp"
+    extra_hosts:
+      - "app:${admin_listen}"
+#should be addr of CPM control server like 10.66.0.1
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    dns_opt:
+      - ndots:0
     volumes:
       - ./Caddyfile.bootstrap:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
